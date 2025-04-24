@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maruti Suzuki</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <img src="images/Logo.png" alt="Suzuki Logo" style="height: 24px;">
+                <span class="logo-text">MARUTI SUZUKI</span>
+              </div>              
+
+              <div class="right-section">
+                <div class="powered-by">
+                  Powered by DE »<span style="margin: 0 10px; color: #ccc;">|</span>
+                </div>
+                <div class="user-info">
+                  <div class="user-avatar">
+                    <i class="fas fa-user" style="color: #757575; font-size: 12px;"></i>
+                  </div>
+                  <div class="user-details">
+                    <div class="user-name" style="display: flex; align-items: center; gap: 6px;">
+                      Maruti ABC
+                      <div style="width: 16px; height: 16px; background-color: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-chevron-down" style="color: #2a3591; font-size: 8px;"></i>
+                      </div>
+                    </div>
+                    <div class="user-subtitle">124</div>
+                  </div>
+                </div>
+              </div>
+  
+        </header>
+
+        
+        <main class="main-content">
+            <div class="content-wrapper">
+                <h1>View Payment Details</h1>
+                
+                    <div class="form-grid2">
+                        <div class="form-group">
+                            <label for="referenceNumber">Reference Number</label>
+                            <input type="text" id="referenceNumber" value="114" readonly class="readonly-input">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="remitterName">Remitter Name</label>
+                            <input type="text" id="remitterName" value="ABC" readonly class="readonly-input">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="bankName">Bank Name</label>
+                            <input type="text" id="bankName" value="SBI" readonly class="readonly-input">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="date">Date</label>
+                            <input type="date" id="date" value="01-Mar-2023" readonly class="readonly-input">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="currency">Currency</label>
+                            <input type="text" id="currency" value="INR" readonly class="readonly-input">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="paymentAmount">Payment Amount</label>
+                            <input type="text" id="paymentAmount" value="199280" readonly class="readonly-input">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="modeOfPayment">Mode of Payment</label>
+                            <input type="text" id="modeOfPayment" value="Post Shipment" readonly class="readonly-input">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="dealerCode">Dealer Code</label>
+                            <input type="text" id="dealerCode" value="7889" readonly class="readonly-input">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="invoiceNumber">Invoice number</label>
+                            <input type="text" id="invoiceNumber" value="199280" readonly class="readonly-input">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="paymentTerms">Payment Terms</label>
+                            <input type="text" id="paymentTerms" value="Standby LC" readonly class="readonly-input">
+                        </div>
+                
+                </div>
+                <div class="action-buttons">
+                    <button class="button button-secondary" onclick="window.location.href='post.html';">POST SHIPMENT</button>
+                    <button class="button button-primary" onclick="window.location.href='advance.html';">ADVANCE PAYMENT</button>
+                </div>
+                
+                <div class="buttons2">
+                    <button class="button button-secondary" onclick="window.location.href='view_pay.html';">BACK</button>
+                    <button class="button button-cancel" onclick="window.location.href='overdue.html';">CANCEL</button>
+                </div>
+            </div>
+
+            <a href="view_pay.html" class="back-button"> 
+                <i class="fa-solid fa-reply back-icon"></i>
+            </a>
+</main>
+<script>
+
+function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
+    // When the page loads
+    window.onload = function() {
+        const referenceId = getQueryParam('reference_id'); // Get reference_id from URL
+
+        // Fetch the payment details from localStorage
+        const paymentDetails = JSON.parse(localStorage.getItem('reference_' + referenceId));
+
+        if (paymentDetails) {
+            // Populate the fields with the payment details
+            document.getElementById('referenceNumber').value = paymentDetails.referenceNumber;
+            document.getElementById('remitterName').value = paymentDetails.remitterName;
+            document.getElementById('bankName').value = paymentDetails.bankName;
+            document.getElementById('date').value = paymentDetails.date;
+            document.getElementById('currency').value = paymentDetails.currency;
+            document.getElementById('paymentAmount').value = paymentDetails.paymentAmount;
+            document.getElementById('modeOfPayment').value = paymentDetails.modeOfPayment;
+            document.getElementById('dealerCode').value = paymentDetails.dealerCode;
+            document.getElementById('invoiceNumber').value = paymentDetails.invoiceNumber;
+            document.getElementById('paymentTerms').value = paymentDetails.paymentTerms;
+        } else {
+            alert("Payment details not found!");
+        }
+    };
+    function submitModal() {
+      document.getElementById('submitModal').style.display = 'flex';
+    }
+  
+    function closeApproveModal() {
+      document.getElementById('submitModal').style.display = 'none';
+    }
+  </script>
+  
+</div>
+</body>
+</html>

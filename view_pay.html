@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maruti Suzuki</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <img src="images/Logo.png" alt="Suzuki Logo" style="height: 24px;">
+                <span class="logo-text">MARUTI SUZUKI</span>
+            </div>
+
+            <div class="right-section">
+                <div class="powered-by">
+                    Powered by DE »<span style="margin: 0 10px; color: #ccc;">|</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user" style="color: #757575; font-size: 12px;"></i>
+                    </div>
+                    <div class="user-details">
+                        <div class="user-name" style="display: flex; align-items: center; gap: 6px;">
+                            Maruti ABC
+                            <div style="width: 16px; height: 16px; background-color: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-chevron-down" style="color: #2a3591; font-size: 8px;"></i>
+                            </div>
+                        </div>
+                        <div class="user-subtitle">124</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="content-wrapper2">
+                <h1>View Payment Details</h1>
+
+                <div class="date-input">
+                    <label for="date">Date</label>
+                    <div class="date-field">
+                        <input type="date" id="date">
+                    </div>
+                    
+                    <script>
+                        window.onload = function() {
+                            const currentDate = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
+                            document.getElementById('date').value = currentDate; // Set the current date as value
+                        };
+                    </script>
+                    
+                </div>
+
+                <div class="table-responsive">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>Reference Number</th>
+                                <th>Remitter Name</th>
+                                <th>Bank Name</th>
+                                <th>Date</th>
+                                <th>Currency</th>
+                                <th>Payment Amount</th>
+                                <th>Mode of Payment</th>
+                                <th>Dealer Code</th>
+                                <th>Invoice number</th>
+                                <th>Payment Terms</th>
+                                <th class="status-header">Status <span class="status-arrow">▼</span></th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentTableBody">
+                            <!-- Static Rows (used as default if no data in localStorage) -->
+                            <tr>
+                                <td>112</td>
+                                <td>Africa Mobility Solutions</td>
+                                <td>HDFC</td>
+                                <td>20-Feb-2025</td>
+                                <td>INR</td>
+                                <td>883200.6</td>
+                                <td>Advance</td>
+                                <td>7889</td>
+                                <td>555555</td>
+                                <td></td>
+                                <td class="claimed">Claimed</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <i class="fas fa-pen edit-btn" onclick="editRow('112')"></i>
+                                        <i class="fas fa-eye view-btn" onclick="viewRow('112')"></i>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>113</td>
+                                <td>Africa Mobility Solutions</td>
+                                <td>HDFC</td>
+                                <td>20-Feb-2025</td>
+                                <td>INR</td>
+                                <td>883200.6</td>
+                                <td></td>
+                                <td>7889</td>
+                                <td>555555</td>
+                                <td></td>
+                                <td class="unclaimed">Unclaimed</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <i class="fas fa-pen edit-btn" onclick="editRow('113')"></i>
+                                        <i class="fas fa-eye view-btn" onclick="viewRow('113')"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <button class="export-btn">EXPORT</button>
+
+                <div class="note">
+                    Note - Claimed: If dealer code & mode of payment is available
+                </div>
+            </div>
+
+            </div>
+            <a href="overdue.html" class="back-button"> 
+                <i class="fa-solid fa-reply back-icon"></i>
+            </a>
+        </main>
+    </div>
+
+    <script>
+window.onload = function() {
+    const paymentTableBody = document.getElementById('paymentTableBody');
+
+    const payments = ['11', '12'];
+
+    payments.forEach(reference => {
+        const updatedPayment = JSON.parse(localStorage.getItem('reference_' + reference));
+
+        const row = document.createElement('tr');
+        
+        const referenceNumber = updatedPayment ? updatedPayment.referenceNumber : reference;
+        const remitterName = updatedPayment ? updatedPayment.remitterName : 'Africa Mobility Solutions';
+        const bankName = updatedPayment ? updatedPayment.bankName : 'HDFC';
+        const date = updatedPayment ? updatedPayment.date : '2025-02-20';
+        const currency = updatedPayment ? updatedPayment.currency : 'INR';
+        const paymentAmount = updatedPayment ? updatedPayment.paymentAmount : '883200.6';
+        const modeOfPayment = updatedPayment ? updatedPayment.modeOfPayment : 'Advance';
+        const dealerCode = updatedPayment ? updatedPayment.dealerCode : '7889';
+        const invoiceNumber = updatedPayment ? updatedPayment.invoiceNumber : '555555';
+        const paymentTerms = updatedPayment ? updatedPayment.paymentTerms : 'Standby LC';
+
+        // Logic to determine the status (Claimed or Unclaimed)
+        const status = (modeOfPayment && dealerCode) ? 'Claimed' : 'Unclaimed'; 
+
+        // Create the row HTML
+        row.innerHTML = `
+            <td>${referenceNumber}</td>
+            <td>${remitterName}</td>
+            <td>${bankName}</td>
+            <td>${date}</td>
+            <td>${currency}</td>
+            <td>${paymentAmount}</td>
+            <td>${modeOfPayment}</td>
+            <td>${dealerCode}</td>
+            <td>${invoiceNumber}</td>
+            <td>${paymentTerms}</td>
+            <td class="${status === 'Claimed' ? 'claimed' : 'unclaimed'}">${status}</td>
+            <td>
+                <div class="action-buttons">
+                    <i class="fas fa-pen edit-btn" onclick="editRow('${reference}')"></i>
+                    <i class="fas fa-eye view-btn" onclick="viewRow('${reference}')"></i>
+                </div>
+            </td>
+        `;
+        
+        // Append the row to the table body
+        paymentTableBody.appendChild(row);
+    });
+};
+
+function editRow(reference) {
+    window.location.href = `edit_details.html?reference_id=${reference}`; 
+}
+
+function viewRow(reference) {
+    window.location.href = `view_details.html?reference_id=${reference}`;
+}
+    </script>
+</body>
+</html>
